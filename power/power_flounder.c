@@ -42,8 +42,8 @@
 #define IO_IS_BUSY_PATH "/sys/devices/system/cpu/cpufreq/interactive/io_is_busy"
 #define LOW_POWER_MAX_FREQ "1020000"
 #define NORMAL_MAX_FREQ "2295000"
-#define GPU_FREQ_CONSTRAINT "852000 852000 -1 2000"
-#define GPU_BOOST_CONSTRAINT "852000 252000 -1 2000"
+#define GPU_FREQ_CONSTRAINT "852000 852000 50 1000"
+#define GPU_BOOST_CONSTRAINT "852000 252000 35 1000"
 
 struct flounder_power_module {
     struct power_module base;
@@ -177,8 +177,22 @@ static int boostpulse_open(struct flounder_power_module *flounder)
             }
         }
     }
-    
-    sysfs_write(GPU_BOOST_PATH, GPU_BOOST_CONSTRAINT);
+    {
+        if ( gpu_boost_fd == -1 )
+            gpu_boost_fd = open(GPU_BOOST_PATH, O_WRONLY);
+
+        if (gpu_boost_fd < 0) {
+            strerror_r(errno, buf, sizeof(buf));
+            ALOGE("Error opening %s: %s\n", GPU_BOOST_PATH, buf);
+        } else {
+            len = write(gpu_boost_fd, GPU_BOOST_CONSTRAINT,
+                        strlen(GPU_BOOST_CONSTRAINT));
+            if (len < 0) {
+                strerror_r(errno, buf, sizeof(buf));
+                ALOGE("Error writing to %s: %s\n", GPU_BOOST_PATH, buf);
+            }
+        }
+    }
     
     pthread_mutex_unlock(&flounder->lock);
     return flounder->boostpulse_fd;

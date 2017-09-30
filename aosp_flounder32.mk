@@ -14,6 +14,6 @@
 
 $(call inherit-product, $(LOCAL_PATH)/aosp_flounder.mk)
 
-PRODUCT_NAME := aosp_flounder32
-PRODUCT_DEVICE := flounder32
-PRODUCT_MODEL := 32-bit AOSP on Flounder
+PRODUCT_NAME := flounder
+PRODUCT_DEVICE := flounder
+PRODUCT_MODEL := Flounder

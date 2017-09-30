@@ -1,12 +1,12 @@
 import init.flounder.usb.rc
-import init.flounder_svelte.rc
+# import init.flounder_svelte.rc
 
 on early-init
     mount debugfs /sys/kernel/debug /sys/kernel/debug mode=755
 
 on init
     # Load persistent dm-verity state
-    verity_load_state
+    # verity_load_state
 
     start watchdogd
 
@@ -18,10 +18,14 @@ on init
     # Swap in only 1 page at a time
     write /proc/sys/vm/page-cluster 0
 
+    # Mount a tmpfs into /mnt/tmp for hosting nvram, phs shared memory
+    mkdir /mnt/tmp 0770 system system
+    mount tmpfs tmpfs /mnt/tmp mode=0775,gid=1003
+
 on post-fs
     # turn off nvmap page pool b/29389829
-    write /sys/module/nvmap_pp/parameters/pool_size 0
-    write /sys/module/nvmap_pp/parameters/enable_page_pools 0
+    #write /sys/module/nvmap_pp/parameters/pool_size 0
+    #write /sys/module/nvmap_pp/parameters/enable_page_pools 0
 
     write /sys/power/gpu_power_on 1
     write /sys/module/input_cfboost/parameters/gpu_wakeup 1
@@ -68,7 +72,7 @@ on boot
     write /sys/class/rfkill/rfkill0/state 0
 
     # keep verity metadata in cache a lot longer (tablet profile)
-    write /sys/module/dm_bufio/parameters/max_age_seconds 86400
+    # write /sys/module/dm_bufio/parameters/max_age_seconds 86400
 
     write /sys/module/tegra3_emc/parameters/emc_enable 0
     #write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 1000000
@@ -108,6 +112,11 @@ on boot
     chown system system /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
     chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
 
+    chown system system /sys/devices/platform/sdhci-tegra.0/mmc_host/mmc1/mmc1:0001/mmc1:0001:2/net/wlan0/address
+    chmod 0660 /sys/devices/platform/sdhci-tegra.0/mmc_host/mmc1/mmc1:0001/mmc1:0001:2/net/wlan0/address
+    chown system system /sys/devices/platform/sdhci-tegra.0/mmc_host/mmc1/mmc1:0001/mmc1:0001:2/net/wlan0/type
+    chmod 0660 /sys/devices/platform/sdhci-tegra.0/mmc_host/mmc1/mmc1:0001/mmc1:0001:2/net/wlan0/type
+
     # Enable CC4
     write /sys/devices/system/cpu/cpu0/cpuidle/state1/disabled 0
     write /sys/devices/system/cpu/cpu1/cpuidle/state1/disabled 0
@@ -123,10 +132,10 @@ on boot
 on fs
     mount_all /fstab.flounder
     # Update dm-verity state and set partition.*.verified properties
-    verity_update_state
+    # verity_update_state
 
-on verity-logging
-    exec u:r:slideshow:s0 -- /sbin/slideshow warning/verity_red_1 warning/verity_red_2
+#on verity-logging
+#    exec u:r:slideshow:s0 -- /sbin/slideshow warning/verity_red_1 warning/verity_red_2
 
 service battery_charger /charger
     class charger

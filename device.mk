@@ -30,13 +30,13 @@ else
 LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
 
-BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
+#BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
 
 # This ensures the needed build tools are available.
 # TODO: make non-linux builds happy with external/f2fs-tool; system/extras/f2fs_utils
-ifeq ($(HOST_OS),linux)
-TARGET_USERIMAGES_USE_F2FS := true
-endif
+#ifeq ($(HOST_OS),linux)
+#TARGET_USERIMAGES_USE_F2FS := true
+#endif
 
 LOCAL_FSTAB := $(LOCAL_PATH)/fstab.flounder
 
@@ -52,18 +52,15 @@ PRODUCT_COPY_FILES := \
     $(LOCAL_PATH)/ueventd.flounder.rc:root/ueventd.flounder.rc
 
 # Copy flounder files as flounder64 so that ${ro.hardware} can find them
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/init.flounder.rc:root/init.flounder64.rc \
-    $(LOCAL_PATH)/init.flounder.usb.rc:root/init.flounder64.usb.rc \
-    $(LOCAL_FSTAB):root/fstab.flounder64 \
-    $(LOCAL_PATH)/init.recovery.flounder.rc:root/init.recovery.flounder64.rc \
-    $(LOCAL_PATH)/ueventd.flounder.rc:root/ueventd.flounder64.rc
+#PRODUCT_COPY_FILES += \
+#    $(LOCAL_PATH)/init.flounder.rc:root/init.flounder64.rc \
+#    $(LOCAL_PATH)/init.flounder.usb.rc:root/init.flounder64.usb.rc \
+#    $(LOCAL_FSTAB):root/fstab.flounder64 \
+#    $(LOCAL_PATH)/init.recovery.flounder.rc:root/init.recovery.flounder64.rc \
+#    $(LOCAL_PATH)/ueventd.flounder.rc:root/ueventd.flounder64.rc
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/touch/touch_fusion.cfg:$(TARGET_COPY_OUT_VENDOR)/firmware/touch_fusion.cfg \
-    $(LOCAL_PATH)/touch/maxim_fp35.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/maxim_fp35.bin \
     $(LOCAL_PATH)/touch/touch_fusion.idc:system/usr/idc/touch_fusion.idc \
-    $(LOCAL_PATH)/touch/touch_fusion:$(TARGET_COPY_OUT_VENDOR)/bin/touch_fusion \
     $(LOCAL_PATH)/touch/synaptics_dsx.idc:system/usr/idc/synaptics_dsx.idc
 
 # headset keylayout
@@ -106,6 +103,10 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.midi.xml:system/etc/permissions/android.software.midi.xml \
     $(LOCAL_PATH)/com.nvidia.nvsi.xml:system/etc/permissions/com.nvidia.nvsi.xml
 
+PRODUCT_COPY_FILES += frameworks/native/data/etc/android.hardware.opengles.aep.xml:system/etc/permissions/android.hardware.opengles.aep.xml \
+                      frameworks/native/data/etc/android.hardware.vulkan.level-1.xml:system/etc/permissions/android.hardware.vulkan.level.xml \
+                      frameworks/native/data/etc/android.hardware.vulkan.version-1_0_3.xml:system/etc/permissions/android.hardware.vulkan.version.xml
+
 PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml \
@@ -133,8 +134,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gps/bcm/gps.bcm47521.conf:system/etc/gps.bcm47521.conf \
     $(LOCAL_PATH)/gps/bcm/glgps:system/bin/glgps \
-    $(LOCAL_PATH)/gps/bcm/gpsconfig.xml:system/etc/gpsconfig.xml \
-    $(LOCAL_PATH)/gps/bcm/lib64/gps.bcm47521.so:system/lib64/hw/gps.bcm47521.so
+    $(LOCAL_PATH)/gps/bcm/gpsconfig.xml:system/etc/gpsconfig.xml
+# \
+#    $(LOCAL_PATH)/gps/bcm/lib64/gps.bcm47521.so:system/lib64/hw/gps.bcm47521.so
 
 # GPS: QCT MODULES
 PRODUCT_COPY_FILES += \
@@ -147,17 +149,18 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gps/qct/lib/libloc_ds_api.so:system/lib/libloc_ds_api.so \
     $(LOCAL_PATH)/gps/qct/lib/libloc_eng.so:system/lib/libloc_eng.so \
     $(LOCAL_PATH)/gps/qct/lib/hw/gps.default.so:system/lib/hw/gps.default.so \
-    $(LOCAL_PATH)/gps/qct/lib64/libgeofence.so:system/lib64/libgeofence.so \
-    $(LOCAL_PATH)/gps/qct/lib64/libgps.utils.so:system/lib64/libgps.utils.so \
-    $(LOCAL_PATH)/gps/qct/lib64/libloc_api_v02.so:system/lib64/libloc_api_v02.so \
-    $(LOCAL_PATH)/gps/qct/lib64/libloc_core.so:system/lib64/libloc_core.so \
-    $(LOCAL_PATH)/gps/qct/lib64/libloc_ds_api.so:system/lib64/libloc_ds_api.so \
-    $(LOCAL_PATH)/gps/qct/lib64/libloc_eng.so:system/lib64/libloc_eng.so \
-    $(LOCAL_PATH)/gps/qct/lib64/hw/gps.default.so:system/lib64/hw/gps.default.so \
-    $(LOCAL_PATH)/gps/qct/lib_vendor/libmdmdetect.so:vendor/lib/libmdmdetect.so \
-    $(LOCAL_PATH)/gps/qct/lib_vendor/libperipheral_client.so:vendor/lib/libperipheral_client.so \
-    $(LOCAL_PATH)/gps/qct/lib64_vendor/libmdmdetect.so:vendor/lib64/libmdmdetect.so \
-    $(LOCAL_PATH)/gps/qct/lib64_vendor/libperipheral_client.so:vendor/lib64/libperipheral_client.so
+    $(LOCAL_PATH)/gps/qct/lib_vendor/libmdmdetect.so:system/vendor/lib/libmdmdetect.so \
+    $(LOCAL_PATH)/gps/qct/lib_vendor/libperipheral_client.so:system/vendor/lib/libperipheral_client.so \
+
+#    $(LOCAL_PATH)/gps/qct/lib64/libgeofence.so:system/lib64/libgeofence.so \
+#    $(LOCAL_PATH)/gps/qct/lib64/libgps.utils.so:system/lib64/libgps.utils.so \
+#    $(LOCAL_PATH)/gps/qct/lib64/libloc_api_v02.so:system/lib64/libloc_api_v02.so \
+#    $(LOCAL_PATH)/gps/qct/lib64/libloc_core.so:system/lib64/libloc_core.so \
+#    $(LOCAL_PATH)/gps/qct/lib64/libloc_ds_api.so:system/lib64/libloc_ds_api.so \
+#    $(LOCAL_PATH)/gps/qct/lib64/libloc_eng.so:system/lib64/libloc_eng.so \
+#    $(LOCAL_PATH)/gps/qct/lib64/hw/gps.default.so:system/lib64/hw/gps.default.so \
+#    $(LOCAL_PATH)/gps/qct/lib64_vendor/libmdmdetect.so:vendor/lib64/libmdmdetect.so \
+#    $(LOCAL_PATH)/gps/qct/lib64_vendor/libperipheral_client.so:vendor/lib64/libperipheral_client.so
 
 
 # NFC feature + config files
@@ -204,7 +207,7 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PROPERTY_OVERRIDES := \
     wifi.interface=wlan0 \
-    ro.opengles.version=196609 \
+    ro.opengles.version=196610 \
     ro.sf.lcd_density=320 \
     ro.hwui.texture_cache_size=72 \
     ro.hwui.layer_cache_size=48 \
@@ -236,8 +239,8 @@ PRODUCT_PACKAGES += \
     audio.primary.flounder \
     audio.a2dp.default \
     audio.usb.default \
-    audio.r_submix.default \
-    libhtcacoustic
+    audio.r_submix.default 
+
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.audio.monitorRotation=true
 
@@ -275,23 +278,25 @@ ifneq (,$(filter userdebug, $(TARGET_BUILD_VARIANT)))
 endif
 
 # add verity dependencies
-$(call inherit-product, build/target/product/verity.mk)
-PRODUCT_SUPPORTS_BOOT_SIGNER := false
-PRODUCT_SYSTEM_VERITY_PARTITION := /dev/block/platform/sdhci-tegra.3/by-name/APP
-PRODUCT_VENDOR_VERITY_PARTITION := /dev/block/platform/sdhci-tegra.3/by-name/VNR
+#$(call inherit-product, build/target/product/verity.mk)
+#PRODUCT_SUPPORTS_BOOT_SIGNER := false
+#PRODUCT_SYSTEM_VERITY_PARTITION := /dev/block/platform/sdhci-tegra.3/by-name/APP
+#PRODUCT_VENDOR_VERITY_PARTITION := /dev/block/platform/sdhci-tegra.3/by-name/VNR
 
 # for warning
-PRODUCT_PACKAGES += \
-    slideshow \
-    verity_warning_images
+#PRODUCT_PACKAGES += \
+#    slideshow \
+#    verity_warning_images
 
-$(call inherit-product-if-exists, hardware/nvidia/tegra132/tegra132.mk)
-$(call inherit-product-if-exists, vendor/nvidia/proprietary-tegra132/tegra132-vendor.mk)
-$(call inherit-product-if-exists, vendor/htc/flounder/device-vendor.mk)
+#$(call inherit-product-if-exists, hardware/nvidia/tegra132/tegra132.mk)
+#$(call inherit-product-if-exists, vendor/nvidia/proprietary-tegra132/tegra132-vendor.mk)
+#$(call inherit-product-if-exists, vendor/htc/flounder/device-vendor.mk)
 $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4354/device-bcm.mk)
-$(call inherit-product-if-exists, vendor/htc/flounder/audio/lifevibes/lvve/device-vendor-lvve.mk)
-$(call inherit-product-if-exists, vendor/htc/flounder/audio/tfa/device-vendor-tfa.mk)
+#$(call inherit-product-if-exists, vendor/htc/flounder/audio/lifevibes/lvve/device-vendor-lvve.mk)
+#$(call inherit-product-if-exists, vendor/htc/flounder/audio/tfa/device-vendor-tfa.mk)
+$(call inherit-product-if-exists, vendor/nvidia/shield/flounder.mk)
+$(call inherit-product-if-exists, vendor/nvidia/shieldtablet/shieldtablet-vendor.mk)
 
 # Add dependency of the proprietary keystore.flounder module.
-PRODUCT_PACKAGES += \
-    libkeymaster_messages
+#PRODUCT_PACKAGES += \
+#    libkeymaster_messages

@@ -21,6 +21,8 @@
 # lines, aosp and flounder, hence its name.
 #
 
+BOARD_NEEDS_VENDORIMAGE_SYMLINK := true
+
 # Live Wallpapers
 PRODUCT_PACKAGES += \
         rild \
@@ -42,4 +44,4 @@ PRODUCT_DEVICE := flounder
 PRODUCT_BRAND := Android
 PRODUCT_MODEL := AOSP on Flounder
 PRODUCT_MANUFACTURER := HTC
-PRODUCT_RESTRICT_VENDOR_FILES := owner path
+# PRODUCT_RESTRICT_VENDOR_FILES := owner path

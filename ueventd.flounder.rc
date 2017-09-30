@@ -1,47 +1,103 @@
-/dev/knvmap     0660    system  system
+/dev/tegra-throughput	0666	system	system
 /dev/nvmap      0666    system  system
-/dev/tegra_avp  0660    media   media
 /dev/tegra_avpchannel   0660    media   drmrpc
-/dev/tegra_audio_avpchannel    0660    media   media
-/dev/tegra_rpc  0660    media   media
-/dev/tegra_sema        0660    media   media
-/dev/tegra_mediaserver  0660    media   media
+/dev/tegra_audio_avpchannel 0660    media   media
+/dev/tegra_cec  0660    system  system
 /dev/imx135     0660    media   camera
 /dev/imx219     0660    media   camera
 /dev/ov9760     0660    media   camera
 /dev/mipi*      0660    media   camera
-/dev/tegra_camera 0660  media   camera
+/dev/tegra_camera_ctrl 0660 media camera
 /dev/camera*    0660    media   camera
 /dev/focuser*   0660    media   camera
 /dev/torch*     0660    media   camera
 /dev/video0     0660    media   camera
 /dev/video1     0660    media   camera
+/dev/mipi-cal   0660    media   camera
 /dev/spdif*     0660    system  audio
-/dev/rt5506     0660    system  audio
-/dev/tfa9895    0660    system  audio
-/dev/tfa9895l   0660    system  audio
+/dev/adf*       0660    media   graphics
 /dev/tegra_dc*  0660    system  system
-/dev/constraint_gpu_freq 0660 system system
 /dev/ttyACM*    0660    radio   system
-/dev/ttyACM2    0660    radio   log
+/dev/ttyACM2    0660    media   system
+/dev/ttyGS*     0660    radio   system
 /dev/nvhdcp0    0666    system  system
-/dev/nvhdcp1    0666    system  system
-/dev/nvhost*    0666    root    root
+/dev/nvhdcp1    0660    system  system
+/dev/nvhost-vi         0660   media  camera
+/dev/nvhost-isp        0660   media  camera
+/dev/nvhost-ctrl-vi    0660   media  camera
+/dev/nvhost-isp.1      0660   media  camera
+/dev/nvhost-vi.1       0660   media  camera
+/dev/nvhost-msenc      0660   media  camera
+/dev/nvhost-ctrl-isp   0660   media  camera
+/dev/nvhost-ctrl-isp.1 0660   media  camera
+/dev/nvhost-vic        0666   root   root
+/dev/nvhost-gpu        0666   root   root
+/dev/nvhost-tsec       0666   root   root
+/dev/nvhost-tsecb      0666   root   root
+/dev/nvhost-ctrl       0666   root   root
+/dev/nvhost-as-gpu     0666   root   root
+/dev/nvhost-ctrl-gpu   0666   root   root
+/dev/nvhost-dbg-gpu    0666   root   root
+/dev/nvhost-tsg-gpu    0666   root   root
+/dev/nvhost-prof-gpu   0666   root   root
+/dev/tlk_device        0660   system drmrpc
+/dev/block/mmcblk0rpmb 0600   system drmrpc
 /dev/ttyTHS1    0660    gps     system
 /dev/gps_onoff  0660    gps     system
-/dev/ttyHS2     0660    bluetooth    net_bt_stack
-/dev/ttyTHS2    0660    bluetooth    net_bt_stack
 #for FM V4L2 Radio
 /dev/radio      0666    system  radio
 /dev/mpu        0640    system  system
 /dev/mpuirq     0640    system  system
 /dev/accelirq   0640    system  system
 /dev/timerirq   0640    system  system
-/dev/raydium_ts 0777    system  system
+/dev/touch      0660    system  system
 /dev/ion        0666    system  system
-/dev/timerinfo  0444    system  system
+/dev/timerinfo  0440    system  system
+/dev/cpu_freq_min	0660	system	system
+/dev/cpu_freq_max	0660	system	system
+/dev/gpu_freq_min	0660	system	system
+/dev/gpu_freq_max	0660	system	system
+/dev/emc_freq_min	0660	system	system
+/dev/min_online_cpus	0660	system	system
+/dev/max_online_cpus	0660	system	system
+/dev/quadd	0660	shell	shell
+/dev/quadd_auth	0660	system	system
+/sys/devices/virtual/input/input*	enabled	0660	system	system
+/sys/power/sysedp/consumers/icemdm state 0660 radio system
+/dev/hidraw*    0660    system  system
+/dev/input/event*       0660    system  input
+/dev/gps	0664	system	system
+/dev/ttyTHS0	0664	root	system
+/dev/ttyTHS2	0664	bluetooth	net_bt_stack
+/dev/ttyTHS3	0660	bluetooth	net_bt_stack
+# pmqos
+/dev/constraint_cpu_freq 0660 system system
+/dev/constraint_gpu_freq 0660 system system
+/dev/constraint_online_cpus 0660 system system
+# cpu cores
+/sys/devices/system/cpu/cpu* online 0664 system system
+/sys/devices/system/cpu/cpu* cpuquiet/active 0664 system system
+/sys/devices/system/cpu/cpu* cpufreq/scaling_governor 0664 system system
+/sys/devices/system/cpu/cpu* cpufreq/scaling_setspeed 0664 system system
+/sys/devices/system/cpu/cpu* cpufreq/scaling_available_frequencies 0444 system system
+/sys/devices/system/cpu/cpu* cpufreq/cpuinfo_cur_freq 0444 system system
+# gk20a nodes
+/sys/devices/platform/host1x gk20a.0/freq_request 0664 system system
+/sys/devices/platform/host1x gk20a.0/user 0664 system system
+/sys/devices/platform/host1x gk20a.0/devfreq/gk20a.0/cur_freq 0444 system system
+/sys/devices/platform/host1x gk20a.0/load 0444 system system
+/sys/devices/platform/host1x gk20a.0/counters_reset 0444 system system
+/sys/devices/platform/host1x gk20a.0/slcg_enable 0664 system system
+/sys/devices/platform/host1x gk20a.0/elcg_enable 0664 system system
+/sys/devices/platform/host1x gk20a.0/elpg_enable 0664 system system
+/sys/devices/platform/host1x gk20a.0/blcg_enable 0664 system system
+/sys/devices/platform/host1x tegradc.0/enable 0664 system system
+
+#for n9
+/dev/rt5506     0660    system  audio
+/dev/tfa9895    0660    system  audio
+/dev/tfa9895l   0660    system  audio
 /dev/bcm2079x   0660    nfc     nfc
-/dev/adf*       0660    media   graphics
 /dev/tlk_device 0660    system  drmrpc
 #for mdm9x25
 /dev/mdm        0660    radio  system
@@ -58,9 +114,17 @@
 /dev/hsicctl3             0660   system     system
 /dev/diag_mdm             0660   radio      radio
 
-/sys/devices/platform/bluedroid_pm.0/rfkill/rfkill0  state  0660    bluetooth    net_bt_stack
-/sys/devices/platform/bluedroid_pm.0/rfkill/rfkill0  type   0660    bluetooth    net_bt_stack
+
+/sys/devices/platform/bluedroid_pm/rfkill/rfkill0  state  0660    bluetooth    net_bt_stack
+/sys/devices/platform/bluedroid_pm/rfkill/rfkill0  type   0660    bluetooth    net_bt_stack
 /sys/devices/platform/tegra-dsi-backlight.0/backlight/tegra-dsi-backlight.0    brightness    0660   system   system
+/sys/devices/platform/pwm-backlight/backlight/pwm-backlight    brightness    0660   system   system
+
+# didim
+/sys/devices/platform/host1x/tegradc.0	smartdimmer/aggressiveness	0660 root graphics
+/sys/devices/platform/host1x/tegradc.0	smartdimmer/enable		0660 root graphics
+/sys/devices/platform/host1x/tegradc.0	smartdimmer/sd_window		0660 root graphics
+/sys/devices/platform/host1x/tegradc.0	smartdimmer/sd_window_enable	0660 root graphics
 
 /sys/devices/platform/tegra12-i2c.1/i2c-1/1-0032/leds/indicator  ModeRGB 0660 system system
 
@@ -87,17 +151,129 @@
 /sys/devices/virtual/htc_sensorhub/sensor_hub  sensor_hub_rdata          0660 system system
 /sys/devices/virtual/htc_sensorhub/sensor_hub  facedown_enabled          0660 system system
 
+/sys/class/htc_sensorhub/sensor_hub  ap_calibrator_data_acc_rl 0660 system system
+/sys/class/htc_sensorhub/sensor_hub  calibrator_data_acc       0660 system system
+/sys/class/htc_sensorhub/sensor_hub  calibrator_data_acc_rl    0660 system system
+/sys/class/htc_sensorhub/sensor_hub  calibrator_data_barometer 0660 system system
+/sys/class/htc_sensorhub/sensor_hub  calibrator_data_gyro      0660 system system
+/sys/class/htc_sensorhub/sensor_hub  calibrator_data_light     0660 system system
+/sys/class/htc_sensorhub/sensor_hub  calibrator_data_mag       0660 system system
+/sys/class/htc_sensorhub/sensor_hub  calibrator_en             0660 system system
+/sys/class/htc_sensorhub/sensor_hub  calibrator_status_acc     0660 system system
+/sys/class/htc_sensorhub/sensor_hub  calibrator_status_gyro    0660 system system
+/sys/class/htc_sensorhub/sensor_hub  calibrator_status_mag     0660 system system
+/sys/class/htc_sensorhub/sensor_hub  data_barometer            0660 system system
+/sys/class/htc_sensorhub/sensor_hub  data_light_kadc           0660 system system
+/sys/class/htc_sensorhub/sensor_hub  data_light_polling        0660 system system
+/sys/class/htc_sensorhub/sensor_hub  delay_ms                  0660 system system
+/sys/class/htc_sensorhub/sensor_hub  enable                    0660 system system
+/sys/class/htc_sensorhub/sensor_hub  batch_enable              0660 system system
+/sys/class/htc_sensorhub/sensor_hub  flush                     0660 system system
+/sys/class/htc_sensorhub/sensor_hub  firmware_version          0664 system system
+/sys/class/htc_sensorhub/sensor_hub  hall_sensor               0660 system system
+/sys/class/htc_sensorhub/sensor_hub  sensor_hub_rdata          0660 system system
+/sys/class/htc_sensorhub/sensor_hub  facedown_enabled          0660 system system
+
 /dev/iio:device* 0660 system system
 /sys/devices/platform/tegra12-i2c.0/i2c-0/0-0072/iio:device*  buffer/length           0660 system system
 /sys/devices/platform/tegra12-i2c.0/i2c-0/0-0072/iio:device*  buffer/enable           0660 system system
 /sys/devices/platform/tegra12-i2c.0/i2c-0/0-0072/iio:device*  trigger/current_trigger 0660 system system
 
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	enable					0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	buffer/enable				0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	buffer/length				0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_timestamp_en		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	trigger/current_trigger			0660	system	system
+
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_accel_x_en		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_accel_y_en		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_accel_z_en		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_accel_status_en 	0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_accel_flush				0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_accel_batch_period			0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_accel_batch_timeout			0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_accel_x_offset			0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_accel_y_offset			0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_accel_z_offset			0660	system	system
+
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_anglvel_x_en		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_anglvel_y_en		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_anglvel_z_en		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_anglvel_status_en 	0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_anglvel_flush			0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_anglvel_batch_period			0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_anglvel_batch_timeout		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_anglvel_x_offset			0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_anglvel_y_offset			0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_anglvel_z_offset			0660	system	system
+
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_anglveluncal_x_en 	0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_anglveluncal_y_en 	0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_anglveluncal_z_en 	0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_anglveluncal_flush			0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_anglveluncal_batch_period		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_anglveluncal_batch_timeout		0660	system	system
+
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_motion_en		0660	system  system
+
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_geomagnrot_x_en 	0660	system  system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_geomagnrot_y_en 	0660	system  system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_geomagnrot_z_en 	0660	system  system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_geomagnrot_w_en 	0660	system  system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_geomagnrot_cos_en 	0660	system  system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_geomagnrot_flush			0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_geomagnrot_batch_period		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_geomagnrot_batch_timeout		0660	system	system
+
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_orientation_x_en 	0660	system  system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_orientation_y_en 	0660	system  system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_orientation_z_en 	0660	system  system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_orientation_flush			0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_orientation_batch_period		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_orientation_batch_timeout		0660	system	system
+
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_magn_x_en		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_magn_y_en		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_magn_z_en		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_magn_status_en		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_magn_flush				0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_magn_batch_period			0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_magn_batch_timeout			0660	system	system
+
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_pressure_en		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_pressure_flush			0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_pressure_batch_period		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_pressure_batch_timeout		0660	system	system
+
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_temp_en		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_temp_flush				0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_temp_batch_period			0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_temp_batch_timeout			0660	system	system
+
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_illuminance_en		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_illuminance_flush			0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_illuminance_batch_period		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_illuminance_batch_timeout		0660	system	system
+
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	scan_elements/in_proximity_en		0660	system  system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_proximity_flush			0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_proximity_batch_period		0660	system	system
+/sys/devices/platform/7000c000.i2c/i2c-0/0-00*	in_proximity_batch_timeout		0660	system	system
+
+/sys/devices/platform/7000c400.i2c/i2c-1/1-00*	enable					0660	system	system
+/sys/devices/platform/7000c400.i2c/i2c-1/1-00*	buffer/enable				0660	system	system
+/sys/devices/platform/7000c400.i2c/i2c-1/1-00*	buffer/length				0660	system	system
+/sys/devices/platform/7000c400.i2c/i2c-1/1-00*	scan_elements/in_timestamp_en		0660	system	system
+
+/sys/devices/platform/7000c400.i2c/i2c-1/1-00*	scan_elements/in_proximity_en		0660	system  system
+/sys/devices/platform/7000c400.i2c/i2c-1/1-00*	in_proximity_flush			0660	system	system
+/sys/devices/platform/7000c400.i2c/i2c-1/1-00*	in_proximity_batch_period		0660	system	system
+/sys/devices/platform/7000c400.i2c/i2c-1/1-00*	in_proximity_batch_timeout		0660	system	system
+
 /sys/devices/virtual/gps/bcm47521 gps_onoff/value 0660  gps  system
 
 /dev/block/platform/sdhci-tegra.3/by-name/PST 0600 system system
 
-# didim
-/sys/devices/platform/host1x/tegradc.0	smartdimmer/aggressiveness	0660 root graphics
-/sys/devices/platform/host1x/tegradc.0	smartdimmer/enable		0660 root graphics
-/sys/devices/platform/host1x/tegradc.0	smartdimmer/sd_window		0660 root graphics
-/sys/devices/platform/host1x/tegradc.0	smartdimmer/sd_window_enable	0660 root graphics
+# For CEC device
+/sys/devices/platform/tegra_cec cec_logical_addr_config 0660 system system
+

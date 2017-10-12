@@ -1,5 +1,4 @@
-import init.flounder.usb.rc
-# import init.flounder_svelte.rc
+import init.tn8.usb.rc
 
 on early-init
     mount debugfs /sys/kernel/debug /sys/kernel/debug mode=755
@@ -7,6 +6,8 @@ on early-init
 on init
     # Load persistent dm-verity state
     # verity_load_state
+
+    export LD_PRELOAD /system/lib/libwvm_shim.so
 
     start watchdogd
 
@@ -27,17 +28,17 @@ on post-fs
     #write /sys/module/nvmap_pp/parameters/pool_size 0
     #write /sys/module/nvmap_pp/parameters/enable_page_pools 0
 
-    write /sys/power/gpu_power_on 1
-    write /sys/module/input_cfboost/parameters/gpu_wakeup 1
+    #write /sys/power/gpu_power_on 1
+    #write /sys/module/input_cfboost/parameters/gpu_wakeup 1
     # Turn on swap
-    swapon_all /fstab.flounder
+    swapon_all /fstab.tn8
 
 on post-fs-data
     # Now that are booted all the way and out of mount panics, ensure that we panic on later errors.
     # This is a hack to work around the fact that we can't recover from all errors that would lead to a panic
     # during the initial mount (http://b/17382778), yet we need to panic on emmc errors (http://b/17640053)
     # For a remount only the flags and the target mount point are relevant.
-    mount dummy dummy /data remount nosuid nodev noatime rw seclabel,background_gc=on,user_xattr,acl,errors=panic
+    mount dummy dummy /data remount nosuid nodev noatime rw seclabel,user_xattr,acl,errors=panic
 
     # Previously files in /data/nvcam are owned by media, change the owner to cameraserver so it
     # can be accessed by Camera HAL in cameraserver.
@@ -85,7 +86,7 @@ on boot
     #write /sys/devices/system/cpu/cpu1/cpufreq/scaling_setspeed 700000
     #write /sys/devices/system/cpu/cpufreq/interactive/boost_factor 2
     #write /sys/devices/system/cpu/cpufreq/interactive/sustain_load 80
-    write /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/enable 0
+    write /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/enable 1
 
     restorecon_recursive /sys/devices/system/cpu/cpufreq/interactive
     chown system system /sys/devices/system/cpu/cpufreq/interactive/timer_rate
@@ -130,7 +131,7 @@ on boot
     write /proc/sys/net/core/wmem_max 1048576
 
 on fs
-    mount_all /fstab.flounder
+    mount_all /fstab.tn8
     # Update dm-verity state and set partition.*.verified properties
     # verity_update_state
 
@@ -260,7 +261,3 @@ service netmgrd /vendor/bin/netmgrd
 service tlk_daemon /vendor/bin/tlk_daemon --storagedir /data/ss
     class main
     group system
-
-# unified scaling setup
-import init.ussrd.rc
-

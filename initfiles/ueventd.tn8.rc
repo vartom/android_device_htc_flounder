@@ -1,3 +1,4 @@
+/dev/rtc*       0640   system     system
 /dev/tegra-throughput	0666	system	system
 /dev/nvmap      0666    system  system
 /dev/tegra_avpchannel   0660    media   drmrpc

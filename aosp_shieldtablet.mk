@@ -25,23 +25,23 @@ BOARD_NEEDS_VENDORIMAGE_SYMLINK := true
 
 # Live Wallpapers
 PRODUCT_PACKAGES += \
+        Launcher3 \
         rild \
         CarrierConfig \
-        Launcher3
 
 PRODUCT_PROPERTY_OVERRIDES := \
         net.dns1=8.8.8.8 \
         net.dns2=8.8.4.4
 
 # Inherit from those products. Most specific first.
-$(call inherit-product, device/htc/flounder/product.mk)
-$(call inherit-product, device/htc/flounder/device-lte.mk)
-$(call inherit-product-if-exists, vendor/htc/flounder_lte/device-vendor.mk)
+$(call inherit-product, device/nvidia/shieldtablet/product.mk)
+#$(call inherit-product, device/nvidia/flounder/device-lte.mk)
+#$(call inherit-product-if-exists, vendor/nvidia/flounder_lte/device-vendor.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base.mk)
 
-PRODUCT_NAME := aosp_flounder
-PRODUCT_DEVICE := flounder
-PRODUCT_BRAND := Android
-PRODUCT_MODEL := AOSP on Flounder
-PRODUCT_MANUFACTURER := HTC
+PRODUCT_NAME := aosp_shieldtablet
+PRODUCT_DEVICE := shieldtablet
+PRODUCT_BRAND := NVIDIA
+PRODUCT_MODEL := SHIELD Tablet
+PRODUCT_MANUFACTURER := NVIDIA
 # PRODUCT_RESTRICT_VENDOR_FILES := owner path

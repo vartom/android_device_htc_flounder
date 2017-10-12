@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-$(call inherit-product, $(LOCAL_PATH)/aosp_flounder.mk)
+$(call inherit-product, $(LOCAL_PATH)/aosp_shieldtablet.mk)
 
-PRODUCT_NAME := flounder
-PRODUCT_DEVICE := flounder
-PRODUCT_MODEL := Flounder
+PRODUCT_NAME := shieldtablet
+PRODUCT_DEVICE := shieldtablet
+PRODUCT_MODEL := SHIELD Tablet

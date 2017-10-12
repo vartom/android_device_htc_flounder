@@ -260,3 +260,7 @@ service netmgrd /vendor/bin/netmgrd
 service tlk_daemon /vendor/bin/tlk_daemon --storagedir /data/ss
     class main
     group system
+
+# unified scaling setup
+import init.ussrd.rc
+

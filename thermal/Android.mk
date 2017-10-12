@@ -22,5 +22,5 @@ LOCAL_MODULE_RELATIVE_PATH := hw
 LOCAL_SRC_FILES := thermal.c
 LOCAL_SHARED_LIBRARIES := liblog libcutils
 LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE := thermal.flounder
+LOCAL_MODULE := thermal.$(TARGET_BOARD_PLATFORM)
 include $(BUILD_SHARED_LIBRARY)

@@ -17,7 +17,7 @@ include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES := healthd-flounder.cpp
 
-LOCAL_MODULE := libhealthd.flounder
+LOCAL_MODULE := libhealthd.$(TARGET_BOARD_PLATFORM)
 
 LOCAL_MODULE_TAGS := optional
 

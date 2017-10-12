@@ -1,1 +1,1 @@
-board=flounder|flounder_lte
+board=shieldtablet|flounder|flounder_lte

@@ -20,7 +20,7 @@
 # to only building on ARM if they include assembly. Individual makefiles
 # are responsible for having their own logic, for fine-grained control.
 
-ifneq ($(filter flounder%, $(TARGET_DEVICE)),)
+ifneq ($(filter shieldtablet%, $(TARGET_DEVICE)),)
 
 LOCAL_PATH := $(call my-dir)
 

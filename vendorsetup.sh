@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-add_lunch_combo aosp_flounder-userdebug
+add_lunch_combo aosp_shieldtablet-userdebug

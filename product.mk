@@ -18,4 +18,4 @@
 #
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core.mk)
-$(call inherit-product, device/htc/flounder/device.mk)
+$(call inherit-product, device/nvidia/shieldtablet/device.mk)

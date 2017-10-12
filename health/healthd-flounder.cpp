@@ -31,9 +31,6 @@
 #define MAX17050_PATH POWER_SUPPLY_SYSFS_PATH "/battery"
 #define CHARGE_COUNTER_EXT_PATH MAX17050_PATH "/charge_counter_ext"
 
-#define PALMAS_VOLTAGE_MONITOR_PATH POWER_SUPPLY_SYSFS_PATH "/palmas_voltage_monitor"
-#define VOLTAGE_MONITOR_PATH PALMAS_VOLTAGE_MONITOR_PATH "/device/voltage_monitor"
-
 #define BATTERY_FULL 100
 #define BATTERY_LOW 15
 #define BATTERY_CRITICAL_LOW_MV (3000)
@@ -144,12 +141,6 @@ static void flounder_voltage_monitor_check(struct BatteryProperties *props)
             monitor_voltage = BATTERY_CRITICAL_LOW_MV;
         else if (vcell_mv > BATTERY_DEAD_MV)
             monitor_voltage = BATTERY_DEAD_MV;
-    }
-
-    if (monitor_voltage != flounder_monitor_voltage) {
-        snprintf(voltage, sizeof(voltage), "%d", monitor_voltage);
-        write_sysfs(VOLTAGE_MONITOR_PATH, voltage);
-        flounder_monitor_voltage = monitor_voltage;
     }
 }
 

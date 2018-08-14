@@ -17,5 +17,6 @@
 # based on the flounder device
 #
 
-$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
+#$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/core.mk)
 $(call inherit-product, device/htc/flounder/device.mk)

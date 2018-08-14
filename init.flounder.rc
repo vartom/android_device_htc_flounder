@@ -1,12 +1,11 @@
 import init.flounder.usb.rc
-import init.flounder_svelte.rc
 
 on early-init
     mount debugfs /sys/kernel/debug /sys/kernel/debug mode=755
 
 on init
     # Load persistent dm-verity state
-    verity_load_state
+    # verity_load_state
 
     start watchdogd
 
@@ -18,13 +17,19 @@ on init
     # Swap in only 1 page at a time
     write /proc/sys/vm/page-cluster 0
 
+    # Mount a tmpfs into /mnt/tmp for hosting nvram, phs shared memory
+    mkdir /mnt/tmp 0770 system system
+    mount tmpfs tmpfs /mnt/tmp mode=0775,gid=1003
+
+    write /proc/sys/vm/legacy_va_layout 1
+
 on post-fs
     # turn off nvmap page pool b/29389829
-    write /sys/module/nvmap_pp/parameters/pool_size 0
-    write /sys/module/nvmap_pp/parameters/enable_page_pools 0
+    #write /sys/module/nvmap_pp/parameters/pool_size 0
+    #write /sys/module/nvmap_pp/parameters/enable_page_pools 0
 
-    write /sys/power/gpu_power_on 1
-    write /sys/module/input_cfboost/parameters/gpu_wakeup 1
+    #write /sys/power/gpu_power_on 1
+    #write /sys/module/input_cfboost/parameters/gpu_wakeup 1
     # Turn on swap
     swapon_all /fstab.flounder
 
@@ -33,7 +38,7 @@ on post-fs-data
     # This is a hack to work around the fact that we can't recover from all errors that would lead to a panic
     # during the initial mount (http://b/17382778), yet we need to panic on emmc errors (http://b/17640053)
     # For a remount only the flags and the target mount point are relevant.
-    mount dummy dummy /data remount nosuid nodev noatime rw seclabel,background_gc=on,user_xattr,acl,errors=panic
+    # mount dummy dummy /data remount nosuid nodev noatime rw seclabel,user_xattr,acl,errors=panic
 
     # Previously files in /data/nvcam are owned by media, change the owner to cameraserver so it
     # can be accessed by Camera HAL in cameraserver.
@@ -60,13 +65,43 @@ on post-fs-data
     setprop vold.post_fs_data_done 1
 
 on boot
+# bluetooth
+    # change back to bluetooth from system
+    chown bluetooth net_bt_stack /data/misc/bluetooth
+
+# backlight
+    chown system system /sys/class/backlight/pwm-backlight/brightness
+    chown system system /sys/devices/platform/tegra-dsi-backlight.0/backlight/tegra-dsi-backlight.0
+
+# didim
+    chown system system /sys/devices/platform/host1x/tegradc.0/smartdimmer/enable
+    chown system system /sys/devices/platform/host1x/tegradc.0/smartdimmer/aggressiveness
+    chown system system /sys/devices/platform/host1x/tegradc.0/smartdimmer/sd_window
+    chown system system /sys/devices/platform/host1x/tegradc.0/smartdimmer/sd_window_enable
+
+# CMU
+    chown system system /sys/devices/platform/host1x/tegradc.0/cmu_enable
+    chown system system /sys/devices/platform/host1x/tegradc.1/cmu_enable
+
+# power
+    chown system system /sys/kernel/tegra_cap/core_cap_level
+    chown system system /sys/kernel/tegra_cap/core_cap_state
+    chown system system /sys/kernel/tegra_volt_cap/cpu_volt
+    chmod 0664 /sys/kernel/tegra_volt_cap/cpu_volt
+    chown system system /sys/module/cpu_tegra/parameters/cpu_user_cap
+    chown system system /sys/devices/platform/host1x/gk20a.0/enable_3d_scaling
+
+# audio
+    chmod 0664 /sys/power/suspend/mode
+    chown system audio /sys/power/suspend/mode
+	
     # power down interface
     write /sys/class/rfkill/rfkill0/state 0
 
     # keep verity metadata in cache a lot longer (tablet profile)
-    write /sys/module/dm_bufio/parameters/max_age_seconds 86400
+    # write /sys/module/dm_bufio/parameters/max_age_seconds 86400
 
-    write /sys/module/tegra3_emc/parameters/emc_enable 0
+    #write /sys/module/tegra3_emc/parameters/emc_enable 0
     #write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 1000000
     #write /sys/module/cpu_tegra/parameters/cpu_user_cap 700000
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
@@ -78,6 +113,7 @@ on boot
     #write /sys/devices/system/cpu/cpufreq/interactive/boost_factor 2
     #write /sys/devices/system/cpu/cpufreq/interactive/sustain_load 80
     write /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/enable 0
+    write /sys/devices/system/cpu/cpufreq/interactive/io_busy_threshold 50
 
     restorecon_recursive /sys/devices/system/cpu/cpufreq/interactive
     chown system system /sys/devices/system/cpu/cpufreq/interactive/timer_rate
@@ -108,9 +144,14 @@ on boot
     chown system system /sys/class/htc_sensorhub/sensor_hub/led_en
     chmod 664           /sys/class/htc_sensorhub/sensor_hub/led_en
 
+    chown system system /sys/devices/platform/sdhci-tegra.0/mmc_host/mmc1/mmc1:0001/mmc1:0001:2/net/wlan0/address
+    chmod 0660 /sys/devices/platform/sdhci-tegra.0/mmc_host/mmc1/mmc1:0001/mmc1:0001:2/net/wlan0/address
+    chown system system /sys/devices/platform/sdhci-tegra.0/mmc_host/mmc1/mmc1:0001/mmc1:0001:2/net/wlan0/type
+    chmod 0660 /sys/devices/platform/sdhci-tegra.0/mmc_host/mmc1/mmc1:0001/mmc1:0001:2/net/wlan0/type
+
     # Enable CC4
-    write /sys/devices/system/cpu/cpu0/cpuidle/state1/disabled 0
-    write /sys/devices/system/cpu/cpu1/cpuidle/state1/disabled 0
+    #write /sys/devices/system/cpu/cpu0/cpuidle/state1/disabled 0
+    #write /sys/devices/system/cpu/cpu1/cpuidle/state1/disabled 0
 
     # b/13568411: make lazy vfree flush thresholds match flush_tlb_range
     write /proc/sys/vm/lazy_vfree_tlb_flush_all_threshold 524288
@@ -123,10 +164,10 @@ on boot
 on fs
     mount_all /fstab.flounder
     # Update dm-verity state and set partition.*.verified properties
-    verity_update_state
+    # verity_update_state
 
-on verity-logging
-    exec u:r:slideshow:s0 -- /sbin/slideshow warning/verity_red_1 warning/verity_red_2
+#on verity-logging
+#    exec u:r:slideshow:s0 -- /sbin/slideshow warning/verity_red_1 warning/verity_red_2
 
 service battery_charger /charger
     class charger
@@ -145,13 +186,14 @@ on property:ro.debuggable=1
 
 # for loading correct gps hal share libraries
 on property:ro.boot.baseband=N/A
+    write /sys/module/bcmdhd/parameters/nvram_path /system/etc/wifi/bcmdhd.cal
     setprop ro.hardware.gps bcm47521
     enable gpsd
 
-on property:ro.boot.baseband=US
+on property:ro.boot.baseband=US2
     write /sys/module/bcmdhd/parameters/nvram_path /system/etc/wifi/bcmdhd_lte.cal
 
-on property:ro.boot.baseband=ROW
+on property:ro.boot.baseband=ROW2
     write /sys/module/bcmdhd/parameters/nvram_path /system/etc/wifi/bcmdhd_lte.cal
 
 on property:ro.baseband=unknown
@@ -163,10 +205,16 @@ on property:ro.boot.baseband=N/A
     setprop ro.radio.noril true
     stop ril-daemon
 
+on property:ro.boot.baseband=ROW
+    setprop ro.radio.noril true
+    stop ril-daemon
+on property:ro.boot.baseband=US
+    setprop ro.radio.noril true
+    stop ril-daemon
 on property:ro.hw.ks.ready=1
     start ril-daemon
 
-on property:ro.boot.baseband=ROW
+on property:ro.boot.baseband=ROW2
     stop ril-daemon
     setprop persist.radio.apm_sim_not_pwdn 1
     enable kickstart
@@ -179,7 +227,7 @@ on property:ro.boot.baseband=ROW
     setprop rild.libargs "-e wwan0"
     setprop persist.radio.snapshot_enabled 1
 
-on property:ro.boot.baseband=US
+on property:ro.boot.baseband=US2
     stop ril-daemon
     setprop persist.radio.apm_sim_not_pwdn 1
     enable kickstart
@@ -192,12 +240,12 @@ on property:ro.boot.baseband=US
     setprop rild.libargs "-e wwan0"
     setprop persist.radio.snapshot_enabled 1
 
-on property:audio_hal.period_size=128
-    write /sys/devices/system/cpu/cpufreq/interactive/rt_priority 1
+#on property:audio_hal.period_size=128
+#    write /sys/devices/system/cpu/cpufreq/interactive/rt_priority 1
 
 # bugreport is triggered by holding down volume down, volume up and power
 #service bugreport /system/bin/dumpstate -d -p -B -z \
-#        -o /data/data/com.android.shell/files/bugreports/bugreport
+#        -o /data/user_de/0/com.android.shell/files/bugreports/bugreport
 #    class late_start
 #    disabled
 #    oneshot
@@ -230,12 +278,12 @@ service wpa_supplicant /system/bin/wpa_supplicant \
     disabled
     oneshot
 
-service kickstart /vendor/bin/qcks -i /vendor/firmware/mdm/image/ -r /data/qcks/mdm/
-    class late_start
-    disabled
-    user system
-    group system wakelock
-    oneshot
+#service kickstart /vendor/bin/qcks -i /vendor/firmware/mdm/image/ -r /data/qcks/mdm/
+#    class late_start
+#    disabled
+#    user system
+#    group system wakelock
+#    oneshot
 
 service qmuxd /vendor/bin/qmuxd
     class late_start

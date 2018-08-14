@@ -31,9 +31,10 @@
 #define MAX17050_PATH POWER_SUPPLY_SYSFS_PATH "/battery"
 #define CHARGE_COUNTER_EXT_PATH MAX17050_PATH "/charge_counter_ext"
 
+/*
 #define PALMAS_VOLTAGE_MONITOR_PATH POWER_SUPPLY_SYSFS_PATH "/palmas_voltage_monitor"
 #define VOLTAGE_MONITOR_PATH PALMAS_VOLTAGE_MONITOR_PATH "/device/voltage_monitor"
-
+*/
 #define BATTERY_FULL 100
 #define BATTERY_LOW 15
 #define BATTERY_CRITICAL_LOW_MV (3000)
@@ -130,7 +131,7 @@ static void flounder_health_check(struct BatteryProperties *props)
             props->batteryHealth = BATTERY_HEALTH_COLD;
     }
 }
-
+/*
 static void flounder_voltage_monitor_check(struct BatteryProperties *props)
 {
     unsigned int monitor_voltage = 0;
@@ -151,7 +152,7 @@ static void flounder_voltage_monitor_check(struct BatteryProperties *props)
         write_sysfs(VOLTAGE_MONITOR_PATH, voltage);
         flounder_monitor_voltage = monitor_voltage;
     }
-}
+}*/
 
 static void flounder_soc_adjust(struct BatteryProperties *props)
 {
@@ -248,7 +249,7 @@ static void flounder_bat_monitor(struct BatteryProperties *props)
     flounder_soc_adjust(props);
     flounder_health_check(props);
     flounder_status_check(props);
-    flounder_voltage_monitor_check(props);
+//    flounder_voltage_monitor_check(props);
 }
 
 int healthd_board_battery_update(struct BatteryProperties *props)

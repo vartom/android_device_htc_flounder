@@ -131,7 +131,7 @@ static ssize_t get_temperatures(thermal_module_t *module, temperature_t *list, s
     if (current_index < size) {
         // battery: temperature in millidegrees Celsius.
         result = read_temperature(BATTERY_SENSOR_NUM, DEVICE_TEMPERATURE_BATTERY, BATTERY_LABEL,
-                0.001, UNKNOWN_TEMPERATURE, BATTERY_SHUTDOWN_THRESHOLD, &list[current_index]);
+                0.001, UNKNOWN_TEMPERATURE, UNKNOWN_TEMPERATURE, &list[current_index]);
         if (result < 0) {
             return result;
         }

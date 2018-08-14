@@ -24,7 +24,7 @@ LOCAL_CFLAGS += -DHAS_DENVER_UID_CHECK
 LOCAL_WHOLE_STATIC_LIBRARIES := libdenveruidcheck
 endif
 
-LOCAL_MODULE := libdumpstate.flounder
+LOCAL_MODULE := libdumpstate.$(TARGET_BOARD_PLATFORM)
 
 LOCAL_MODULE_TAGS := optional
 

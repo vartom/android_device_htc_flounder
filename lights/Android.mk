@@ -27,6 +27,6 @@ LOCAL_MODULE_TAGS := optional
 
 LOCAL_SHARED_LIBRARIES := liblog
 
-LOCAL_MODULE := lights.flounder
+LOCAL_MODULE := lights.$(TARGET_BOARD_PLATFORM)
 
 include $(BUILD_SHARED_LIBRARY)

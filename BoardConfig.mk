@@ -15,19 +15,18 @@
 #
 
 # Build a separate vendor.img
-TARGET_COPY_OUT_VENDOR := system
+TARGET_COPY_OUT_VENDOR := vendor
 
-TARGET_ARCH := arm64
-TARGET_ARCH_VARIANT := armv8-a
-TARGET_CPU_ABI := arm64-v8a
-TARGET_CPU_ABI2 :=
-TARGET_CPU_VARIANT := denver64
+# Use unified vendor
+TARGET_TEGRA_VARIANT := shield
 
-TARGET_2ND_ARCH := arm
-TARGET_2ND_ARCH_VARIANT := armv7-a-neon
-TARGET_2ND_CPU_ABI := armeabi-v7a
-TARGET_2ND_CPU_ABI2 := armeabi
-TARGET_2ND_CPU_VARIANT := denver
+TARGET_SPECIFIC_HEADER_PATH := device/htc/flounder/include
+
+TARGET_CPU_ABI := armeabi-v7a
+TARGET_CPU_ABI2 := armeabi
+TARGET_ARCH := arm
+TARGET_ARCH_VARIANT := armv7-a-neon
+TARGET_CPU_VARIANT := cortex-a15
 
 # Disable emulator for "make dist" until there is a 64-bit qemu kernel
 BUILD_EMULATOR := false
@@ -35,10 +34,12 @@ BUILD_EMULATOR := false
 TARGET_NO_BOOTLOADER := true
 
 BOARD_KERNEL_CMDLINE += androidboot.hardware=flounder
+HAS_PREBUILT_KERNEL := true
 
 TARGET_NO_RADIOIMAGE := true
 
-TARGET_BOARD_PLATFORM := tegra132
+TARGET_BOARD_PLATFORM := tegra
+TARGET_TEGRA_VERSION := t132
 TARGET_BOARD_INFO_FILE := device/htc/flounder/board-info.txt
 
 TARGET_BOOTLOADER_BOARD_NAME := flounder
@@ -52,6 +53,8 @@ TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2782920704
 # BOARD_USERDATAIMAGE_PARTITION_SIZE := 13287555072
+BOARD_VENDORIMAGE_PARTITION_SIZE := 268435456
+BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_CACHEIMAGE_PARTITION_SIZE := 268435456
 BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_FLASH_BLOCK_SIZE := 4096
@@ -60,9 +63,9 @@ BOARD_CHARGER_DISABLE_INIT_BLANK := true
 BOARD_USES_GENERIC_INVENSENSE := false
 
 # RenderScript
-OVERRIDE_RS_DRIVER := libnvRSDriver.so
-BOARD_OVERRIDE_RS_CPU_VARIANT_32 := cortex-a15
-BOARD_OVERRIDE_RS_CPU_VARIANT_64 := cortex-a57
+#OVERRIDE_RS_DRIVER := libnvRSDriver.so
+#BOARD_OVERRIDE_RS_CPU_VARIANT_32 := cortex-a15
+#BOARD_OVERRIDE_RS_CPU_VARIANT_64 := cortex-a57
 
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/htc/flounder/bluetooth
@@ -71,7 +74,7 @@ BOARD_HAVE_BLUETOOTH_BCM := true
 BOARD_USES_GENERIC_AUDIO := false
 BOARD_USES_ALSA_AUDIO := true
 
-BOARD_HAL_STATIC_LIBRARIES := libdumpstate.flounder libhealthd.flounder
+BOARD_HAL_STATIC_LIBRARIES := libdumpstate.tegra libhealthd.tegra
 
 # Use flounder's libhealthd
 WITH_CM_CHARGER := false
@@ -93,7 +96,8 @@ WIFI_DRIVER_FW_PATH_PARAM   := "/sys/module/bcmdhd/parameters/firmware_path"
 WIFI_DRIVER_FW_PATH_STA     := "/vendor/firmware/fw_bcmdhd.bin"
 WIFI_DRIVER_FW_PATH_AP      := "/vendor/firmware/fw_bcmdhd_apsta.bin"
 
-BOARD_SEPOLICY_DIRS += device/htc/flounder/sepolicy
+BOARD_SEPOLICY_DIRS += device/htc/flounder/sepolicy/common \
+			device/htc/flounder/sepolicy/lineage-common
 BOARD_SECCOMP_POLICY += device/htc/flounder/seccomp
 
 TARGET_USES_64_BIT_BCMDHD := true
@@ -102,11 +106,11 @@ TARGET_USES_64_BIT_BINDER := true
 BOARD_WIDEVINE_OEMCRYPTO_LEVEL := 1
 
 # HACK: Build apps as 64b for volantis_64_only
-ifneq (,$(filter ro.zygote=zygote64, $(PRODUCT_DEFAULT_PROPERTY_OVERRIDES)))
-TARGET_PREFER_32_BIT_APPS :=
-TARGET_SUPPORTS_32_BIT_APPS :=
-TARGET_SUPPORTS_64_BIT_APPS := true
-endif
+#ifneq (,$(filter ro.zygote=zygote64, $(PRODUCT_DEFAULT_PROPERTY_OVERRIDES)))
+#TARGET_PREFER_32_BIT_APPS :=
+#TARGET_SUPPORTS_32_BIT_APPS :=
+#TARGET_SUPPORTS_64_BIT_APPS := true
+#endif
 
 # Don't dex preopt apps to avoid I/O congestion due to paging larger sized
 # pre-compiled .odex files as opposed to background generated interpret-only
@@ -115,12 +119,12 @@ WITH_DEXPREOPT_BOOT_IMG_ONLY := true
 
 TARGET_RELEASETOOLS_EXTENSIONS := device/htc/flounder
 
-ART_USE_HSPACE_COMPACT=true
+#ART_USE_HSPACE_COMPACT=true
 
 # let charger mode enter suspend
 BOARD_CHARGER_ENABLE_SUSPEND := true
 
-MALLOC_SVELTE := true
+#MALLOC_SVELTE := true
 
 USE_CLANG_PLATFORM_BUILD := true
 

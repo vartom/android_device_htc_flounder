@@ -49,9 +49,9 @@ struct effect_info_s {
 #endif
 
 #ifdef __LP64__
-#define SOUND_TRIGGER_HAL_LIBRARY_PATH "/system/lib64/hw/sound_trigger.primary.flounder.so"
+#define SOUND_TRIGGER_HAL_LIBRARY_PATH "/system/lib64/hw/sound_trigger.primary.tegra.so"
 #else
-#define SOUND_TRIGGER_HAL_LIBRARY_PATH "/system/lib/hw/sound_trigger.primary.flounder.so"
+#define SOUND_TRIGGER_HAL_LIBRARY_PATH "/system/lib/hw/sound_trigger.primary.tegra.so"
 #endif
 
 #define TTY_MODE_OFF    1

@@ -35,8 +35,6 @@ BUILD_EMULATOR := false
 
 TARGET_NO_BOOTLOADER := true
 
-BOARD_KERNEL_CMDLINE += androidboot.hardware=flounder
-
 TARGET_NO_RADIOIMAGE := true
 
 TARGET_BOARD_PLATFORM := tegra132
@@ -45,14 +43,19 @@ TARGET_BOARD_INFO_FILE := device/htc/flounder/board-info.txt
 TARGET_BOOTLOADER_BOARD_NAME := flounder
 
 USE_OPENGL_RENDERER := true
-NUM_FRAMEBUFFER_SURFACE_BUFFERS := 2
+NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
 BOARD_DISABLE_TRIPLE_BUFFERED_DISPLAY_SURFACES := true
+BOARD_USES_LIBDRM := true
+
+#PRESENT_TIME_OFFSET_FROM_VSYNC_NS := 0
+#VSYNC_EVENT_PHASE_OFFSET_NS := 7500000
+#SF_VSYNC_EVENT_PHASE_OFFSET_NS := 7500000
 
 TARGET_RECOVERY_FSTAB := device/htc/flounder/fstab.flounder
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 
 TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_USERIMAGES_USE_F2FS := true
+#TARGET_USERIMAGES_USE_F2FS := true
 
 # Use mke2fs to create ext4 images
 TARGET_USES_MKE2FS := true
@@ -68,6 +71,15 @@ BOARD_FLASH_BLOCK_SIZE := 4096
 
 BOARD_CHARGER_DISABLE_INIT_BLANK := true
 BOARD_USES_GENERIC_INVENSENSE := false
+
+TARGET_USES_HWC2 := true
+
+# Shims
+TARGET_LD_SHIM_LIBS := \
+    /vendor/lib64/libglcore.so|libshim_egl.so \
+    /vendor/lib64/egl/libGLESv2_tegra.so|libshim_egl.so \
+    /vendor/lib64/egl/libGLESv1_CM_tegra.so|libshim_egl.so \
+    /vendor/lib/hw/camera.tegra132.so|libshim_camera.so
 
 # RenderScript
 OVERRIDE_RS_DRIVER := libnvRSDriver.so
@@ -128,7 +140,7 @@ MALLOC_SVELTE := true
 
 # Forcebly use the non-open-source parts
 include vendor/htc/flounder-common/BoardConfigVendor.mk
-ifeq ($(TARGET_PRODUCT),lineage_flounder_lte)
+ifeq ($(TARGET_PRODUCT),aosp_flounder_lte)
 include vendor/htc/flounder_lte/BoardConfigVendor.mk
 else
 include vendor/htc/flounder/BoardConfigVendor.mk

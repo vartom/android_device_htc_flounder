@@ -1,1 +1,8 @@
 allow priv_app sysfs_swap:file r_file_perms;
+
+allow priv_app sysfs_tegra_fuse:file r_file_perms;
+allow priv_app sysfs_tegra_fuse:dir r_dir_perms;
+
+allow priv_app sysfs_gpu:dir r_dir_perms;
+allow priv_app sysfs_gpu:file rw_file_perms;
+

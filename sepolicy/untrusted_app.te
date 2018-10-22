@@ -1,0 +1,5 @@
+allow untrusted_app sysfs_gpu:dir { read open search };
+allow untrusted_app sysfs_gpu:file r_file_perms;
+allow untrusted_app sysfs_tegra_fuse:dir search;
+allow untrusted_app sysfs_tegra_fuse:file r_file_perms;
+

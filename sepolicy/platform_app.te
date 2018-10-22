@@ -1,0 +1,11 @@
+#allow platform_app vnd_qcril_audio_hwservice:hwservice_manager find;
+#binder_call(platform_app, rild);
+
+#allow platform_app qchook_service:service_manager find;
+
+allow platform_app sysfs_tegra_fuse:file r_file_perms;
+allow platform_app sysfs_tegra_fuse:dir r_dir_perms;
+
+allow platform_app sysfs_gpu:dir r_dir_perms;
+allow platform_app sysfs_gpu:file rw_file_perms;
+

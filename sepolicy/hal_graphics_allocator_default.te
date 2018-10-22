@@ -1,0 +1,10 @@
+allow hal_graphics_allocator_default gpu_device:chr_file { read write open ioctl };
+dontaudit hal_graphics_allocator_default kernel:system module_request;
+
+allow hal_graphics_allocator_default sysfs_gpu:dir search;
+allow hal_graphics_allocator_default sysfs_gpu:file r_file_perms;
+
+allow hal_graphics_allocator_default sysfs_soc:dir search;
+allow hal_graphics_allocator_default sysfs_soc:file rw_file_perms;
+allow hal_graphics_allocator_default sysfs_tegra_fuse:dir search;
+allow hal_graphics_allocator_default sysfs_tegra_fuse:file r_file_perms;

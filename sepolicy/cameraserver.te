@@ -3,6 +3,14 @@ allow cameraserver sensorservice_service:service_manager find;
 
 allow cameraserver gpu_device:chr_file rw_file_perms;
 allow cameraserver proc:lnk_file getattr;
-allow cameraserver { sysfs sysfs_gpu sysfs_socinfo }:file r_file_perms;
+
+allow cameraserver { sysfs sysfs_gpu sysfs_soc }:dir search;
+allow cameraserver { sysfs sysfs_gpu sysfs_soc }:file r_file_perms;
+
+allow cameraserver sysfs_tegra_fuse:dir search;
+allow cameraserver sysfs_tegra_fuse:file r_file_perms;
+
+allow cameraserver camera_data_file:dir create_dir_perms;
+allow cameraserver camera_data_file:file create_file_perms;
 
 allow cameraserver system_server:unix_stream_socket { read write };

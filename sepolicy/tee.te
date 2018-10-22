@@ -10,5 +10,6 @@ allow tee block_device:dir { search };
 allow tee mmc_rpmb_block_device:blk_file rw_file_perms;
 
 # data
-allow tee tee_data_file:dir create_dir_perms;
+allow tee flounder_tee_data_file:dir create_dir_perms;
+allow tee flounder_tee_data_file:file create_file_perms; # trebl
 # create files -- in global tee.te

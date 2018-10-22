@@ -1,2 +1,7 @@
-allow mediacodec { sysfs_gpu sysfs_socinfo }:file r_file_perms;
+allow mediacodec { sysfs_gpu sysfs_soc }:dir search;
+allow mediacodec { sysfs_gpu sysfs_soc }:file r_file_perms;
 allow mediacodec system_file:dir r_dir_perms;
+
+allow mediacodec sysfs_tegra_fuse:dir search;
+allow mediacodec sysfs_tegra_fuse:file r_file_perms;
+

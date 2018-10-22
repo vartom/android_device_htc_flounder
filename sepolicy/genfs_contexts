@@ -1,2 +1,22 @@
 genfscon proc /bluetooth/sleep/lpm     u:object_r:proc_bluetooth_writable:s0
 genfscon proc /bluetooth/sleep/btwrite u:object_r:proc_bluetooth_writable:s0
+genfscon sysfs /devices/soc0                          u:object_r:sysfs_soc:s0
+genfscon sysfs /devices/virtual/block/                                u:object_r:sysfs_devices_block:s0
+genfscon sysfs /module/tegra_fuse/parameters/                u:object_r:sysfs_soc:s0
+
+genfscon debugfs /kgsl/proc                           u:object_r:debugfs_kgsl:s0
+genfscon debugfs /clk/debug_suspend                   u:object_r:debugfs_clk:s0
+genfscon debugfs /wlan0                               u:object_r:debugfs_wlan:s0
+
+genfscon debugfs /rpm_stats                           u:object_r:debugfs_rpm:s0
+genfscon debugfs /rpm_master_stats                    u:object_r:debugfs_rpm:s0
+genfscon debugfs /ion                                 u:object_r:debugfs_ion:s0
+genfscon debugfs /system_stats                        u:object_r:debugfs_rpm:s0
+genfscon debugfs /tcpm/usbpd0                         u:object_r:debugfs_usb:s0
+genfscon debugfs /pd_engine/usbpd0                    u:object_r:debugfs_usb:s0
+genfscon debugfs /rmt_storage                         u:object_r:debugfs_rmt_storage:s0
+genfscon debugfs /icnss                               u:object_r:debugfs_icnss:s0
+genfscon debugfs /fg/sram                             u:object_r:debugfs_fg_sram:s0
+genfscon debugfs /dma_buf/bufinfo                     u:object_r:debugfs_dma_bufinfo:s0
+genfscon debugfs /tzdbg	                              u:object_r:debugfs_tzdbg:s0
+genfscon debugfs /nvmap                               u:object_r:debugfs_nvmap:s0

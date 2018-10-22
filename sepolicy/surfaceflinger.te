@@ -1,4 +1,15 @@
-allow surfaceflinger device:dir r_dir_perms;
+allow surfaceflinger device:dir rw_file_perms;
+allow surfaceflinger gpu_device:chr_file rw_file_perms;
 allow surfaceflinger sysfs_didim:file rw_file_perms;
-allow surfaceflinger sysfs_gpu:file r_file_perms;
-allow surfaceflinger sysfs_socinfo:file r_file_perms;
+
+allow surfaceflinger sysfs_gpu:dir search;
+allow surfaceflinger sysfs_gpu:file rw_file_perms;
+allow surfaceflinger sysfs_soc:dir search;
+allow surfaceflinger sysfs_soc:file r_file_perms;
+allow surfaceflinger sysfs_tegra_fuse:dir search;
+allow surfaceflinger sysfs_tegra_fuse:file r_file_perms;
+
+allow surfaceflinger debugfs_ion:dir search;
+
+allow surfaceflinger sw_sync_device:chr_file rw_file_perms;
+

@@ -1,2 +1,11 @@
+allow bootanim sysfs_gpu:dir search;
 allow bootanim sysfs_gpu:file r_file_perms;
-allow bootanim sysfs_socinfo:file r_file_perms;
+allow bootanim sysfs_soc:dir search;
+allow bootanim sysfs_soc:file r_file_perms;
+
+allow bootanim sysfs_tegra_fuse:dir search;
+allow bootanim sysfs_tegra_fuse:file r_file_perms;
+
+allow bootanim gpu_device:chr_file rw_file_perms;
+allow bootanim hwservicemanager:binder call;
+

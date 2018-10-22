@@ -1,0 +1,10 @@
+#allow untrusted_app_25 mnt_media_rw_file:dir getattr;
+#allow untrusted_app_25 rootfs:dir read;
+#allow untrusted_app_25 sysfs_thermal:dir { read open search };
+#allow untrusted_app_25 sysfs_thermal:file r_file_perms;
+#allow untrusted_app_25 sysfs_thermal:lnk_file { read };
+allow untrusted_app_25 sysfs_gpu:dir { read open search };
+allow untrusted_app_25 sysfs_gpu:file r_file_perms;
+allow untrusted_app_25 sysfs_tegra_fuse:dir search;
+allow untrusted_app_25 sysfs_tegra_fuse:file r_file_perms;
+

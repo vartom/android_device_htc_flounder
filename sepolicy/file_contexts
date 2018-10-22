@@ -26,6 +26,7 @@
 /dev/ov9760			u:object_r:camera_device:s0
 /dev/torch.*			u:object_r:camera_device:s0
 /dev/mipi-cal			u:object_r:camera_device:s0
+/dev/sw_sync                                    u:object_r:sw_sync_device:s0
 
 # rt5506 Audio device
 /dev/rt5506                     u:object_r:audio_device:s0
@@ -76,13 +77,14 @@
 /data/qcks(/.*)?                       u:object_r:kickstart_data_file:s0
 # temporary EFS file stored
 /data/efs(/.*)?                        u:object_r:efs_data_file:s0
+/data/misc/cw_calibrator_mag\.ini       u:object_r:sensors_data_file:s0
 
 # Factory reset protection block device
 /dev/block/mmcblk0p27 u:object_r:frp_block_device:s0
 
 # debugfs files
-/sys/kernel/debug/nvavp(/.*)?          u:object_r:debugfs_nvavp:s0
-/sys/kernel/debug/nvmap(/.*)?          u:object_r:debugfs_nvmap:s0
+#/sys/kernel/debug/nvavp(/.*)?          u:object_r:debugfs_nvavp:s0
+/sys/kernel/debug/nvmap/handles_by_pid(/.*)?          u:object_r:debugfs_nvmap:s0
 /sys/kernel/debug/bq2419x-regs         u:object_r:debugfs_usb:s0
 /sys/kernel/debug/max17050-regs        u:object_r:debugfs_fg:s0
 /sys/kernel/debug/shrinker             u:object_r:debugfs_shrinker:s0
@@ -93,13 +95,14 @@
 /sys/devices/platform/host1x/tegradc\.0/smartdimmer/enable                         u:object_r:sysfs_didim:s0
 /sys/devices/platform/host1x/tegradc\.0/smartdimmer/sd_window                      u:object_r:sysfs_didim:s0
 /sys/devices/platform/host1x/tegradc\.0/smartdimmer/sd_window_enable               u:object_r:sysfs_didim:s0
-/sys/devices/platform/host1x/capabilities/[^/]*                                    u:object_r:sysfs_gpu:s0
+/sys/devices/platform/host1x/capabilities(/.*)?                                    u:object_r:sysfs_gpu:s0
+#/sys/devices/platform/host1x/capabilities/[^/]*                                    u:object_r:sysfs_gpu:s0
 /sys/devices/platform/host1x/gk20a\.0/ptimer_scale_factor                          u:object_r:sysfs_gpu:s0
 /sys/devices/platform/tegra12-i2c\.0/i2c-0/0-0036/power_supply/battery/capacity    u:object_r:sysfs_batteryinfo:s0
 /sys/devices/platform/tegra-ehci\.[0-9]+(/.*)?                                     u:object_r:sysfs_usb:s0
 /sys/devices/virtual/block/zram0/mm_stat                                           u:object_r:sysfs_swap:s0
 /sys/devices/virtual/block/zram0/mem_used_total                                    u:object_r:sysfs_swap:s0
-/sys/devices/soc0/family                                                           u:object_r:sysfs_socinfo:s0
+/sys/devices/soc0(/.*)?                                                           u:object_r:sysfs_soc:s0
 
 /sys/module/tegra_fuse(/.*)?    u:object_r:sysfs_tegra_fuse:s0
 
@@ -119,7 +122,7 @@
 /dev/block/platform/sdhci-tegra\.3/by-name/MSC u:object_r:misc_block_device:s0
 
 # secure os storage
-/data/ss(/.*)?                         u:object_r:tee_data_file:s0
+/data/ss(/.*)?                         u:object_r:flounder_tee_data_file:s0
 
 # tlk_daemon
 /vendor/bin/tlk_daemon                 u:object_r:tee_exec:s0

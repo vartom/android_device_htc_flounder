@@ -1,1 +1,26 @@
+allow system_app proc_pagetypeinfo:file { open read getattr };
+allow system_app sysfs_swap:dir { read search getattr };
 allow system_app sysfs_swap:file r_file_perms;
+
+allow system_app sysfs_zram:dir { read search getattr };
+allow system_app sysfs_zram:file { open read getattr };
+
+# sys/devices/soc*/...
+allow system_app sysfs_soc:file r_file_perms;
+allow system_app sysfs_soc:dir r_dir_perms;
+
+allow system_app sysfs_tegra_fuse:file r_file_perms;
+allow system_app sysfs_tegra_fuse:dir r_dir_perms;
+
+allow system_app sysfs_gpu:file r_file_perms;
+allow system_app sysfs_gpu:dir r_dir_perms;
+
+typeattribute system_app system_writes_vendor_properties_violators;
+
+allow system_app hal_configstore_default:binder call;
+#allow system_app storaged:binder call;
+#allow system_app wificond:binder call;
+#allow system_app perfprofd:binder call;
+#allow system_app installd:binder call;
+#allow system_app netd:binder call;
+#allow system_app vold:binder call;

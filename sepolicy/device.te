@@ -11,3 +11,6 @@ type gpu_freq_device, dev_type;
 type mmc_rpmb_block_device, dev_type;
 
 type gps_device, dev_type;
+
+type sw_sync_device, dev_type;
+

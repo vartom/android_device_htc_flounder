@@ -14,6 +14,9 @@
 # limitations under the License.
 #
 
+
+LOCAL_KERNEL := device/htc/flounder/Image.gz-dtb
+
 # Wifi
 PRODUCT_PACKAGES := \
     android.hardware.wifi@1.0-service \
@@ -23,9 +26,10 @@ PRODUCT_PACKAGES := \
     wpa_supplicant.conf
 
 PRODUCT_COPY_FILES := \
-    $(LOCAL_PATH)/init.flounder.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.rc \
-    $(LOCAL_PATH)/init.flounder.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.usb.rc \
-    $(LOCAL_PATH)/init.recovery.flounder.rc:root/init.recovery.flounder.rc \
+    $(LOCAL_KERNEL):kernel \
+    $(LOCAL_PATH)/init.flounder.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.flounder.rc \
+    $(LOCAL_PATH)/init.flounder.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.flounder.usb.rc \
+    $(LOCAL_PATH)/init.recovery.flounder.rc:recovery/root/init.recovery.flounder.rc \
     $(LOCAL_PATH)/fstab.flounder:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.flounder \
     $(LOCAL_PATH)/ueventd.flounder.rc:$(TARGET_COPY_OUT_VENDOR)/ueventd.rc
 
@@ -78,6 +82,11 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/media_codecs_performance.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_performance.xml \
     $(LOCAL_PATH)/media_profiles_V1_0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml
 
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/media_codecs.xml:system/etc/media_codecs.xml \
+    $(LOCAL_PATH)/media_codecs_performance.xml:system/etc/media_codecs_performance.xml \
+    $(LOCAL_PATH)/media_profiles_V1_0.xml:system/etc/media_profiles_V1_0.xml
+
 # Audio configuration
 USE_XML_AUDIO_POLICY_CONF := 1
 
@@ -107,7 +116,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/bluetooth/bt_vendor.conf:$(TARGET_COPY_OUT_SYSTEM)/etc/bluetooth/bt_vendor.conf
 
 # GPS configs
-ifneq ($(filter lineage_flounder volantis volantisf, $(TARGET_PRODUCT)),)
+ifneq ($(filter aosp_flounder volantis volantisg, $(TARGET_PRODUCT)),)
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gps/bcm/gps.bcm47521.conf:system/etc/gps.bcm47521.conf \
     $(LOCAL_PATH)/gps/bcm/gpsconfig.xml:$(TARGET_COPY_OUT_VENDOR)/etc/gpsconfig.xml
@@ -118,10 +127,8 @@ endif
 
 # NFC feature + config files
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.hardware.nfc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.xml \
-    frameworks/native/data/etc/android.hardware.nfc.hce.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.hce.xml \
-    device/htc/flounder/nfc/libnfc-brcm.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-brcm.conf \
-    device/htc/flounder/nfc/libnfc-brcm-20795a10.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-brcm-20795a10.conf
+    device/htc/flounder/nfc/libnfc-nci.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nci.conf \
+    device/htc/flounder/nfc/libnfc-nci-20795a10.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nci-20795a10.conf
 
 # Bluetooth config files
 PRODUCT_COPY_FILES += \
@@ -129,10 +136,11 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_AAPT_CONFIG := normal large xlarge
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
+PRODUCT_AAPT_PREBUILT_DPI := xhdpi 320dpi
 
 PRODUCT_CHARACTERISTICS := tablet,nosdcard
 
-ifneq ($(filter lineage_flounder volantis volantisf, $(TARGET_PRODUCT)),)
+ifneq ($(filter aosp_flounder volantis volantisg, $(TARGET_PRODUCT)),)
 # Wifi-Only overlays.
 DEVICE_PACKAGE_OVERLAYS := \
     $(LOCAL_PATH)/wifi_only_overlay \
@@ -147,15 +155,23 @@ endif
 PRODUCT_PACKAGES += \
     android.hardware.nfc@1.0-impl-bcm \
     android.hardware.nfc@1.0-service \
-    nfc_nci.bcm2079x.default \
+    nfc_nci.bcm2079x.tegra132 \
     NfcNci \
     Tag
 
+# HIDL
+PRODUCT_PACKAGES += \
+    android.hidl.base@1.0 \
+    android.hidl.base@1.0_system \
+    android.hidl.manager@1.0 \
+    android.hidl.manager@1.0-java
+
 # Audio HAL
 PRODUCT_PACKAGES += \
-    android.hardware.audio@2.0-impl \
-    android.hardware.audio.effect@2.0-impl \
-    android.hardware.soundtrigger@2.0-impl
+    android.hardware.audio@4.0-impl \
+    android.hardware.audio.effect@4.0-impl \
+    android.hardware.soundtrigger@2.1-impl \
+    android.hardware.audio@2.0-service
 
 # Bluetooth HAL
 PRODUCT_PACKAGES += \
@@ -170,6 +186,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     camera.device@3.2-impl \
     android.hardware.camera.provider@2.4-impl
+
 
 # DRM HAL
 PRODUCT_PACKAGES += \
@@ -194,13 +211,28 @@ PRODUCT_PACKAGES += \
     android.hardware.graphics.allocator@2.0-impl \
     android.hardware.graphics.allocator@2.0-service \
     android.hardware.graphics.composer@2.1-impl \
-    android.hardware.graphics.mapper@2.0-impl \
-    hwcomposer.flounder
+    android.hardware.graphics.composer@2.1-service \
+    android.hardware.graphics.mapper@2.0-impl
+
+
+PRODUCT_PACKAGES += \
+    libshim_egl \
+    libshim_camera \
+    hwcomposer.flounder \
+	libadfhwc \
+	libadf
+
+TARGET_USES_HWC2 := true
+
+# Renderscript deps
+ifeq ($(TARGET_ARCH),arm64)
+PRODUCT_PACKAGES += libLLVM_32
+endif
 
 # Health HAL
 PRODUCT_PACKAGES += \
-    android.hardware.health@1.0-impl \
-    android.hardware.health@1.0-service
+    android.hardware.health@2.0-impl \
+    android.hardware.health@2.0-service
 
 # Keymaster HAL
 PRODUCT_PACKAGES += \
@@ -213,11 +245,13 @@ PRODUCT_PACKAGES += \
 
 # Memtrack HAL
 PRODUCT_PACKAGES += \
-    android.hardware.memtrack@1.0-impl
+    android.hardware.memtrack@1.0-impl \
+    android.hardware.memtrack@1.0-service
 
 # Power HAL
 PRODUCT_PACKAGES += \
     android.hardware.power@1.0-impl \
+    android.hardware.power@1.0-service \
     power.flounder
 
 # RenderScript HAL
@@ -227,6 +261,7 @@ PRODUCT_PACKAGES += \
 # Sensors HAL
 PRODUCT_PACKAGES += \
     android.hardware.sensors@1.0-impl \
+    android.hardware.sensors@1.0-service \
     sensors.flounder
 
 # Thermal HAL
@@ -246,10 +281,22 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     fsck.f2fs mkfs.f2fs
 
-PRODUCT_PROPERTY_OVERRIDES := \
+PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
     ro.opengles.version=196609 \
     ro.sf.lcd_density=320 \
+    ro.hwui.texture_cache_size=72 \
+    ro.hwui.layer_cache_size=48 \
+    ro.hwui.r_buffer_cache_size=8 \
+    ro.hwui.path_cache_size=32 \
+    ro.hwui.gradient_cache_size=1 \
+    ro.hwui.drop_shadow_cache_size=6 \
+    ro.hwui.texture_cache_flushrate=0.4 \
+    ro.hwui.text_small_cache_width=1024 \
+    ro.hwui.text_small_cache_height=1024 \
+    ro.hwui.text_large_cache_width=2048 \
+    ro.hwui.text_large_cache_height=1024 \
+    ro.hwui.disable_scissor_opt=true \
     ro.bt.bdaddr_path=/sys/module/flounder_bdaddress/parameters/bdaddress \
     ro.frp.pst=/dev/block/platform/sdhci-tegra.3/by-name/PST \
     ro.product.first_api_level=23 \
@@ -266,6 +313,27 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PACKAGES += \
     charger \
     charger_res_images
+
+# Default OMX service to non-Treble
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.media.treble_omx=false
+
+# OMX
+PRODUCT_PACKAGES += \
+    libc2dcolorconvert \
+    libextmedia_jni \
+    libOmxAacEnc \
+    libOmxAmrEnc \
+    libOmxCore \
+    libOmxEvrcEnc \
+    libOmxQcelp13Enc \
+    libOmxVdec \
+    libOmxVenc \
+    libstagefrighthw
+
+# DRM Mappings
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.com.widevine.cachesize=16777216
 
 # for audio
 PRODUCT_PACKAGES += \
@@ -318,7 +386,7 @@ PRODUCT_COPY_FILES += \
 ifeq ($(TARGET_BUILD_VARIANT),user)
 $(call inherit-product, build/target/product/verity.mk)
 PRODUCT_SUPPORTS_BOOT_SIGNER := false
-PRODUCT_SYSTEM_VERITY_PARTITION := /dev/block/platform/sdhci-tegra.3/by-name/APP
+#PRODUCT_SYSTEM_VERITY_PARTITION := /dev/block/platform/sdhci-tegra.3/by-name/APP
 #PRODUCT_VENDOR_VERITY_PARTITION := /dev/block/platform/sdhci-tegra.3/by-name/VNR
 
 # for warning
@@ -338,8 +406,8 @@ ifeq ($(TARGET_BUILD_VARIANT),eng)
     $(call add-product-dex-preopt-module-config,wifi-service,--generate-mini-debug-info)
 endif
 
-$(call inherit-product-if-exists, hardware/nvidia/tegra132/tegra132.mk)
-$(call inherit-product-if-exists, vendor/nvidia/proprietary-tegra132/tegra132-vendor.mk)
+#$(call inherit-product-if-exists, hardware/nvidia/tegra132/tegra132.mk)
+#$(call inherit-product-if-exists, vendor/nvidia/proprietary-tegra132/tegra132-vendor.mk)
 $(call inherit-product, vendor/htc/flounder-common/flounder-common-vendor.mk)
 ifeq ($(TARGET_PRODUCT),lineage_flounder_lte)
     $(call inherit-product, vendor/htc/flounder_lte/flounder_lte-vendor.mk)

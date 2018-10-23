@@ -109,6 +109,9 @@
 /sys/devices/platform/tegra-dsi-backlight\.0/backlight/tegra-dsi-backlight\.0/brightness   u:object_r:sysfs_leds:s0
 /sys/devices/virtual/htc_sensorhub/sensor_hub/led_en                                       u:object_r:sysfs_leds:s0
 
+# Bluetooth rfkill interface for kernel-3.10
+/sys/devices/platform/bluedroid_pm\.[0-9][0-9]?/rfkill/rfkill0/state	u:object_r:sysfs_bluetooth:s0
+
 # mmc rpmb
 /dev/block/mmcblk0rpmb                 u:object_r:mmc_rpmb_block_device:s0
 

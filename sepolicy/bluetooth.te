@@ -1,3 +1,8 @@
 # /sys/class/rfkill/rfkill0/state
-allow bluetooth sysfs:file write;
+#allow bluetooth sysfs:file rw_file_perms;
 allow bluetooth sysfs_usb:file write;
+
+allow bluetooth sysfs_bluetooth:dir search;
+allow bluetooth sysfs_bluetooth:file rw_file_perms;
+
+allow bluetooth bluetooth_data_file:dir { read write open getattr };

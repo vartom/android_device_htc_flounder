@@ -15,6 +15,9 @@ type sysfs_didim, sysfs_type, fs_type;
 # host1x graphics files
 type sysfs_gpu, sysfs_type, fs_type;
 
+# /sys/class/rfkill/rfkill0/state
+type sysfs_bluetooth, fs_type, sysfs_type;
+
 type sysfs_swap, sysfs_type, fs_type;
 type sysfs_soc, sysfs_type, fs_type;
 

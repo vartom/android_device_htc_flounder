@@ -112,8 +112,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/bluetooth/bcm4350b1.hcd:$(TARGET_COPY_OUT_VENDOR)/firmware/bcm4350b1.hcd \
     $(LOCAL_PATH)/bluetooth/BCM4354_003.001.012.0319.0690_ORC.hcd:$(TARGET_COPY_OUT_VENDOR)/firmware/bcm4350c0.hcd \
-    $(LOCAL_PATH)/bluetooth/bcm4354.hcd:$(TARGET_COPY_OUT_VENDOR)/firmware/bcm4354.hcd \
-    $(LOCAL_PATH)/bluetooth/bt_vendor.conf:$(TARGET_COPY_OUT_SYSTEM)/etc/bluetooth/bt_vendor.conf
+    $(LOCAL_PATH)/bluetooth/bcm4354.hcd:$(TARGET_COPY_OUT_VENDOR)/firmware/bcm4354.hcd
 
 # GPS configs
 ifneq ($(filter aosp_flounder volantis volantisg, $(TARGET_PRODUCT)),)
@@ -129,10 +128,6 @@ endif
 PRODUCT_COPY_FILES += \
     device/htc/flounder/nfc/libnfc-nci.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nci.conf \
     device/htc/flounder/nfc/libnfc-nci-20795a10.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nci-20795a10.conf
-
-# Bluetooth config files
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/bluetooth/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf
 
 PRODUCT_AAPT_CONFIG := normal large xlarge
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
